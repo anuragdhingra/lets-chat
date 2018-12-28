@@ -2,12 +2,16 @@ package main
 
 import (
 	_ "chit-chat/data"
+	"github.com/julienschmidt/httprouter"
 	"net/http"
+
 )
 
 func main() {
 
-	mux := http.NewServeMux()
+	mux := httprouter.New()
+	mux.GET("/", Index)
+	mux.GET("/threads/:id", FindThread)
 	//files := http.FileServer(http.Dir("/public"))
 	//mux.Handle("/static/", http.StripPrefix("/static/", files))
 
@@ -15,6 +19,5 @@ func main() {
 		Addr:    "0.0.0.0:8080",
 		Handler: mux,
 	}
-	mux.HandleFunc("/", index)
 	server.ListenAndServe()
 }
