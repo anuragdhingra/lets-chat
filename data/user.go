@@ -21,8 +21,6 @@ func (user User) Create() (err error){
 		return err
 	}
 
-	throw
-
 	u4, err := uuid.NewV4()
 	if err != nil {
 		log.Print(err)
