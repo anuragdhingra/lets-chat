@@ -4,6 +4,7 @@ import (
 	"chit-chat/data"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -15,4 +16,11 @@ func generateHTML(writer http.ResponseWriter, threads []data.Thread, filenames .
 
 	 templates := template.Must(template.ParseFiles(files...))
 	 templates.ExecuteTemplate(writer,"layout", threads)
+}
+
+func throwError(err error) {
+	if err != nil {
+		log.Print(err)
+		return
+	}
 }

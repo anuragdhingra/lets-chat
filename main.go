@@ -12,6 +12,8 @@ func main() {
 	mux := httprouter.New()
 	mux.GET("/", Index)
 	mux.GET("/threads/:id", FindThread)
+	mux.GET("/signup", Signup)
+	mux.POST("/signup_account", SignupAccount)
 	//files := http.FileServer(http.Dir("/public"))
 	//mux.Handle("/static/", http.StripPrefix("/static/", files))
 
