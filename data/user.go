@@ -9,6 +9,7 @@ import (
 type User struct {
 	Id int
 	Username string
+	Uuid string
 	Email string
 	Password string
 	CreatedAt time.Time
@@ -34,4 +35,16 @@ func (user User) Create() (err error){
 		log.Print("User created successfully!")
 		return nil
 	}
+}
+
+func UserByEmailOrUsername(emailOrUsername string) (user User, err error) {
+	conv := User{}
+	err = Db.QueryRow("SELECT * FROM users WHERE email=? OR username=?",emailOrUsername,emailOrUsername).Scan(&conv.Id,
+		&conv.Uuid, &conv.Username,&conv.Email, &conv.Password, &conv.CreatedAt)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+	user = conv
+	return user, nil
 }
