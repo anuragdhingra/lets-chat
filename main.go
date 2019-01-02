@@ -10,6 +10,8 @@ import (
 func main() {
 
 	mux := httprouter.New()
+	mux.ServeFiles("/public/*filepath", http.Dir("public"))
+
 	mux.GET("/", Index)
 	mux.GET("/threads/:id", FindThread)
 	mux.GET("/signup", Signup)
