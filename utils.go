@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func generateHTML(writer http.ResponseWriter, threads []data.Thread, filenames ...string) {
@@ -23,4 +24,13 @@ func throwError(err error) {
 		log.Print(err)
 		return
 	}
+}
+
+func encryptPassword(password string) (encryptedPass string) {
+	bytePass := []byte(password)
+	encryptedPassword, err := bcrypt.GenerateFromPassword(bytePass, bcrypt.MinCost)
+	throwError(err)
+	encryptedPass = string(encryptedPassword)
+
+	return string(encryptedPass)
 }

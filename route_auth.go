@@ -17,7 +17,7 @@ func SignupAccount(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 	user := data.User{
 		Username:r.PostFormValue("username"),
 		Email:r.PostFormValue("email"),
-		Password:r.PostFormValue("password"),
+		Password: encryptPassword(r.PostFormValue("password")),
 	}
 
 	err = user.Create()
