@@ -30,7 +30,11 @@ func FindThread(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		log.Print(err)
 		return
 	} else {
-		log.Print(thread)
-		generateHTML(w, thread, "layout", "public.navbar", "thread")
+		_, err := session(w, r)
+		if err != nil {
+			generateHTML(w, thread, "layout","public.navbar", "thread")
+		} else {
+			generateHTML(w, thread, "layout", "private.navbar","thread")
+		}
 	}
 }
