@@ -10,8 +10,14 @@ import (
 func main() {
 
 	mux := httprouter.New()
+	mux.ServeFiles("/public/*filepath", http.Dir("public"))
+
 	mux.GET("/", Index)
 	mux.GET("/threads/:id", FindThread)
+	mux.GET("/signup", Signup)
+	mux.POST("/signup_account", SignupAccount)
+	mux.GET("/login", Login)
+	mux.POST("/authenticate", Authenticate)
 	//files := http.FileServer(http.Dir("/public"))
 	//mux.Handle("/static/", http.StripPrefix("/static/", files))
 
