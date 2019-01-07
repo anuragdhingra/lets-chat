@@ -2,6 +2,7 @@ package main
 
 import (
 	"chit-chat/data"
+	"errors"
 	"fmt"
 	"html/template"
 	"log"
@@ -33,4 +34,20 @@ func encryptPassword(password string) (encryptedPass string) {
 	encryptedPass = string(encryptedPassword)
 
 	return string(encryptedPass)
+}
+
+func session(w http.ResponseWriter, r *http.Request) (session data.Session, err error) {
+	cookie, err := r.Cookie("_cookie")
+	if err != nil {
+		log.Print(err)
+		return
+	} else {
+		log.Print("_cookie" + cookie.Value)
+		session = data.Session{Uuid:cookie.Value}
+		ok,_ := session.Check()
+		if !ok {
+			err = errors.New("Invalid session")
+		}
+	}
+	return
 }

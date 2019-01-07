@@ -18,8 +18,7 @@ func main() {
 	mux.POST("/signup_account", SignupAccount)
 	mux.GET("/login", Login)
 	mux.POST("/authenticate", Authenticate)
-	//files := http.FileServer(http.Dir("/public"))
-	//mux.Handle("/static/", http.StripPrefix("/static/", files))
+	mux.GET("/logout", Logout)
 
 	server := &http.Server{
 		Addr:    "0.0.0.0:8080",

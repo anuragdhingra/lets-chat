@@ -13,8 +13,13 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		log.Print(err)
 		return
 	} else {
-		generateHTML(w, threads, "layout", "public.navbar", "index")
+		_, err := session(w, r)
+		if err != nil {
+			generateHTML(w, threads, "layout","public.navbar", "index")
+		} else {
+			generateHTML(w, threads, "layout", "private.navbar","index")
 		}
+	}
 	}
 
 func FindThread(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
