@@ -25,12 +25,12 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 func FindThread(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	threadId := p.ByName("id")
 	thread, err := data.ThreadByID(threadId)
-	threads := []data.Thread{}
-	threads = append(threads, thread)
+	throwError(err)
 	if err != nil {
 		log.Print(err)
 		return
 	} else {
-		generateHTML(w, threads, "layout", "public.navbar", "index")
+		log.Print(thread)
+		generateHTML(w, thread, "layout", "public.navbar", "thread")
 	}
 }

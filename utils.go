@@ -10,14 +10,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func generateHTML(writer http.ResponseWriter, threads []data.Thread, filenames ...string) {
+func generateHTML(writer http.ResponseWriter, data interface{}, filenames ...string) {
 	 var files []string
 	 for _, file := range filenames {
 	 	files = append(files, fmt.Sprintf("templates/%s.html", file))
 	 }
 
 	 templates := template.Must(template.ParseFiles(files...))
-	 templates.ExecuteTemplate(writer,"layout", threads)
+	 templates.ExecuteTemplate(writer,"layout", data)
 }
 
 func throwError(err error) {
