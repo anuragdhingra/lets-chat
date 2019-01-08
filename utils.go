@@ -52,10 +52,9 @@ func session(w http.ResponseWriter, r *http.Request) (session data.Session, err 
 }
 
 func checkInvalidRequests(w http.ResponseWriter, r *http.Request) {
-	_, err := r.Cookie("_cookie")
-	if err != http.ErrNoCookie {
-		log.Print("Session token not found")
-		http.Redirect(w, r, "/", 302)
+	_, err := session(w, r)
+	if err == nil {
+		http.Redirect(w, r, `/`, 302)
 		return
 	}
 }
