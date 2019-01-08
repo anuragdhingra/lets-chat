@@ -7,17 +7,25 @@ import (
 	"net/http"
 )
 
+type Data struct {
+	Thread []data.Thread
+	User data.User
+}
+
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	threads, err := data.Threads()
 	if err != nil {
 		log.Print(err)
 		return
 	} else {
-		_, err := session(w, r)
+		sess, err := session(w, r)
+		loggedInUser, err := sess.User()
+		data := Data{ threads, loggedInUser}
+
 		if err != nil {
-			generateHTML(w, threads, "layout","public.navbar", "index")
+			generateHTML(w, data, "layout","public.navbar", "index")
 		} else {
-			generateHTML(w, threads, "layout", "private.navbar","index")
+			generateHTML(w, data, "layout", "private.navbar","index")
 		}
 	}
 	}
