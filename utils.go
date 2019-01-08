@@ -2,6 +2,7 @@ package main
 
 import (
 	"chit-chat/data"
+	"errors"
 	"fmt"
 	"html/template"
 	"log"
@@ -9,14 +10,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func generateHTML(writer http.ResponseWriter, threads []data.Thread, filenames ...string) {
+func generateHTML(writer http.ResponseWriter, data interface{}, filenames ...string) {
 	 var files []string
 	 for _, file := range filenames {
 	 	files = append(files, fmt.Sprintf("templates/%s.html", file))
 	 }
 
 	 templates := template.Must(template.ParseFiles(files...))
-	 templates.ExecuteTemplate(writer,"layout", threads)
+	 templates.ExecuteTemplate(writer,"layout", data)
 }
 
 func throwError(err error) {
@@ -33,4 +34,20 @@ func encryptPassword(password string) (encryptedPass string) {
 	encryptedPass = string(encryptedPassword)
 
 	return string(encryptedPass)
+}
+
+func session(w http.ResponseWriter, r *http.Request) (session data.Session, err error) {
+	cookie, err := r.Cookie("_cookie")
+	if err != nil {
+		log.Print(err)
+		return
+	} else {
+		log.Print("_cookie" + cookie.Value)
+		session = data.Session{Uuid:cookie.Value}
+		ok,_ := session.Check()
+		if !ok {
+			err = errors.New("Invalid session")
+		}
+	}
+	return
 }

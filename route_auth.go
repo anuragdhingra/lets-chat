@@ -37,16 +37,46 @@ func Authenticate(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	emailOrUsername := r.PostFormValue("emailOrUsername")
 	pass := r.PostFormValue("password")
+
 	user, err := data.UserByEmailOrUsername(emailOrUsername)
 	throwError(err)
-	log.Print(user.Password + "/" + pass)
+
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(pass))
 	if err != nil {
 		log.Print(err)
 		http.Redirect(w, r, "/login", 302)
 		return
 	} else {
+		session, err := user.CreateSession()
+		throwError(err)
+
+		cookie := http.Cookie{
+			Name: "_cookie",
+			Value: session.Uuid,
+			HttpOnly: true,
+		}
+		http.SetCookie(w,&cookie)
+ 
 		log.Print("User successfully logged in")
 		http.Redirect(w, r, "/", 302)
+	}
+}
+
+func Logout(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	cookie, err := r.Cookie("_cookie")
+	if err != http.ErrNoCookie {
+		sess := data.Session{Uuid:cookie.Value}
+		err = sess.DeleteByUUID()
+		if err != nil {
+			log.Print(err)
+			return
+		} else {
+			cookie := http.Cookie{
+				Name:   "_cookie",
+				MaxAge: -1,
+			}
+			http.SetCookie(w, &cookie)
+			http.Redirect(w, r, "/", 302)
+		}
 	}
 }
