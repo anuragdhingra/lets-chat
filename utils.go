@@ -42,7 +42,6 @@ func session(w http.ResponseWriter, r *http.Request) (session data.Session, err 
 		log.Print(err)
 		return
 	} else {
-		log.Print("_cookie" + cookie.Value)
 		session = data.Session{Uuid:cookie.Value}
 		ok,_ := session.Check()
 		if !ok {
@@ -50,4 +49,13 @@ func session(w http.ResponseWriter, r *http.Request) (session data.Session, err 
 		}
 	}
 	return
+}
+
+func checkInvalidRequests(w http.ResponseWriter, r *http.Request) {
+	_, err := r.Cookie("_cookie")
+	if err != http.ErrNoCookie {
+		log.Print("Session token not found")
+		http.Redirect(w, r, "/", 302)
+		return
+	}
 }

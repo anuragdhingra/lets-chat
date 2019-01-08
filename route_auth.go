@@ -9,6 +9,7 @@ import (
 )
 
 func Signup(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	checkInvalidRequests(w, r)
 	generateHTML(w, nil, "layout", "public.navbar", "signup")
 }
 
@@ -28,6 +29,7 @@ func SignupAccount(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 }
 
 func Login(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	checkInvalidRequests(w,r)
 	generateHTML(w, nil, "layout", "public.navbar", "login")
 }
 
@@ -78,5 +80,8 @@ func Logout(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 			http.SetCookie(w, &cookie)
 			http.Redirect(w, r, "/", 302)
 		}
+	} else {
+		log.Print("Invalid request")
+		http.Redirect(w, r, "/", 302)
 	}
 }
