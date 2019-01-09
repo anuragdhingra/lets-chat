@@ -13,12 +13,17 @@ func main() {
 	mux.ServeFiles("/public/*filepath", http.Dir("public"))
 
 	mux.GET("/", Index)
-	mux.GET("/threads/:id", FindThread)
+
 	mux.GET("/signup", Signup)
 	mux.POST("/signup_account", SignupAccount)
 	mux.GET("/login", Login)
 	mux.POST("/authenticate", Authenticate)
 	mux.GET("/logout", Logout)
+
+	mux.GET("/thread/new", NewThread)
+	mux.GET("/threads/:id", FindThread)
+	mux.POST("/thread/create", CreateThread)
+
 
 	server := &http.Server{
 		Addr:    "0.0.0.0:8080",

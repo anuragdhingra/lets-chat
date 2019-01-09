@@ -57,6 +57,18 @@ func UserByEmailOrUsername(emailOrUsername string) (user User, err error) {
 	return user, nil
 }
 
+func UserById(userId int) (user User, err error) {
+	conv := User{}
+	err = Db.QueryRow("SELECT * FROM users WHERE id=?",userId).Scan(&conv.Id,
+		&conv.Uuid, &conv.Username,&conv.Email, &conv.Password, &conv.CreatedAt)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+	user = conv
+	return user, nil
+}
+
 func (user User) CreateSession() (session Session, err error) {
 	stmt, err := Db.Prepare("INSERT INTO sessions(uuid, email, user_id, created_at) VALUES(?,?,?,?)")
 	if err != nil {

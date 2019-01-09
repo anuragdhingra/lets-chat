@@ -7,9 +7,13 @@ import (
 	"net/http"
 )
 
-type Data struct {
-	Thread []data.Thread
+type ThreadsInfoPrivate struct {
+	ThreadList []ThreadInfoPublic
 	User data.User
+}
+
+type ThreadsInfoPublic struct {
+	ThreadList []ThreadInfoPublic
 }
 
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -20,29 +24,14 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	} else {
 		sess, err := session(w, r)
 		loggedInUser, err := sess.User()
-		data := Data{ threads, loggedInUser}
-
 		if err != nil {
+			data := ThreadsInfoPublic{CreateThreadList(threads)}
+			log.Print(data)
 			generateHTML(w, data, "layout","public.navbar", "index")
 		} else {
+			data := ThreadsInfoPrivate{CreateThreadList(threads), loggedInUser}
+			log.Print(data)
 			generateHTML(w, data, "layout", "private.navbar","index")
 		}
 	}
 	}
-
-func FindThread(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	threadId := p.ByName("id")
-	thread, err := data.ThreadByID(threadId)
-	throwError(err)
-	if err != nil {
-		log.Print(err)
-		return
-	} else {
-		_, err := session(w, r)
-		if err != nil {
-			generateHTML(w, thread, "layout","public.navbar", "thread")
-		} else {
-			generateHTML(w, thread, "layout", "private.navbar","thread")
-		}
-	}
-}
