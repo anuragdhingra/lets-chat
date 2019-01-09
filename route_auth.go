@@ -25,7 +25,7 @@ func SignupAccount(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 
 	err = user.Create()
 	throwError(err)
-	http.Redirect(w, r, "/", 302)
+	http.Redirect(w, r, "/login", 200)
 }
 
 func Login(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {

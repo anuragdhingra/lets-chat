@@ -4,10 +4,10 @@
     </p>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <span class="lead"> <i class="fa fa-comment-o"></i> {{ .Topic }}</span>
+                <span class="lead"> <i class="fa fa-comment-o"></i> {{ .Thread.Topic }}</span>
             </div>
             <div class="panel-body">
-                Started by Anurag Dhingra - {{ .CreatedAt }} {{ .UserId }} posts.
+                Started by {{ .CreatedBy.Username }} - {{ .Thread.CreatedAt }} {{ .Thread.UserId }} posts.
             </div>
         </div>
 {{ end }}

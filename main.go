@@ -22,6 +22,7 @@ func main() {
 
 	mux.GET("/thread/new", NewThread)
 	mux.GET("/threads/:id", FindThread)
+	mux.POST("/thread/create", CreateThread)
 
 
 	server := &http.Server{
