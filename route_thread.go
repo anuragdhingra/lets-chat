@@ -11,12 +11,14 @@ import (
 type ThreadInfoPublic struct {
 	Thread data.Thread
 	CreatedBy data.User
+	Posts []PostInfoPublic
 }
 
 type ThreadInfoPrivate struct {
 	Thread data.Thread
 	CreatedBy data.User
 	User data.User
+	Posts []PostInfoPublic
 }
 
 func NewThread(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -67,15 +69,18 @@ func FindThread(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	} else {
 		user, err := data.UserById(thread.UserId)
 		throwError(err)
+		posts, err := data.PostsByThreadId(thread.Id)
+		throwError(err)
+		postList := CreatePostList(posts)
 		sess, err := session(w, r)
 		if err != nil {
-			data := ThreadInfoPublic{thread, user}
-			generateHTML(w, data, "layout","public.navbar", "thread")
+			data := ThreadInfoPublic{thread, user,  postList}
+			generateHTML(w, data, "layout","public.navbar", "public.thread")
 		} else {
 			loggedInUser, err := sess.User()
 			throwError(err)
-			data := ThreadInfoPrivate{thread, user, loggedInUser}
-			generateHTML(w, data, "layout", "private.navbar","thread")
+			data := ThreadInfoPrivate{thread, user, loggedInUser, postList}
+			generateHTML(w, data, "layout", "private.navbar","private.thread")
 		}
 	}
 }
@@ -85,7 +90,7 @@ func CreateThreadList(threads []data.Thread) (threadListPublic []ThreadInfoPubli
 		threadUserId := thread.UserId
 		user, err := data.UserById(threadUserId)
 		throwError(err)
-		threadInfoPublic := ThreadInfoPublic{thread,user}
+		threadInfoPublic := ThreadInfoPublic{thread,user, nil}
 		threadListPublic = append(threadListPublic, threadInfoPublic)
 	}
 	return

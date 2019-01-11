@@ -24,6 +24,8 @@ func main() {
 	mux.GET("/threads/:id", FindThread)
 	mux.POST("/thread/create", CreateThread)
 
+	mux.POST("/thread/post", CreatePost)
+
 
 	server := &http.Server{
 		Addr:    "0.0.0.0:8080",

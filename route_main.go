@@ -26,11 +26,9 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		loggedInUser, err := sess.User()
 		if err != nil {
 			data := ThreadsInfoPublic{CreateThreadList(threads)}
-			log.Print(data)
 			generateHTML(w, data, "layout","public.navbar", "index")
 		} else {
 			data := ThreadsInfoPrivate{CreateThreadList(threads), loggedInUser}
-			log.Print(data)
 			generateHTML(w, data, "layout", "private.navbar","index")
 		}
 	}
