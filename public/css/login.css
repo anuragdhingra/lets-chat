@@ -41,3 +41,35 @@ body {
 nav .navbar-nav li a{
     color:blue;!important;
 }
+
+.panel-heading {
+    padding-bottom: 5px;
+}
+.panel-heading .lead {
+    font-family: "Helvetica";
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.panel-heading .pull-right {
+    font-size: 15px;
+}
+
+.panel-body .lead {
+    margin-left: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-family: "Helvetica Neue";
+    font-weight: 400;
+    font-size: 16px;
+    color:#6c757d;
+}
+
+.panel-body .pull-right {
+    font-size: 15px;
+}
+
+.panel-body .form-group {
+    padding-top: 5px;
+    margin-left: 20px;
+}
