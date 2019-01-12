@@ -42,9 +42,10 @@ nav .navbar-nav li a{
     color:blue;!important;
 }
 
-.panel-heading {
+.panel-body {
     padding-bottom: 5px;
 }
+
 .panel-heading .lead {
     font-family: "Helvetica";
     font-size: 20px;
