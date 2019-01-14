@@ -19,6 +19,8 @@ func main() {
 	mux.GET("/login", Login)
 	mux.POST("/authenticate", Authenticate)
 	mux.GET("/logout", Logout)
+	mux.GET("/login/google", GoogleSignIn)
+	mux.GET("/login/google/callback", GoogleSignInCallback)
 
 	mux.GET("/thread/new", NewThread)
 	mux.GET("/threads/:id", FindThread)
