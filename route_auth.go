@@ -24,9 +24,9 @@ func SignupAccount(w http.ResponseWriter, r *http.Request, _ httprouter.Params) 
 		HasPassword:true,
 	}
 
-	_ = user.Create()
-
-	http.Redirect(w, r, "/login", 302)
+	err = user.Create()
+	throwError(err)
+	http.Redirect(w, r, "/login", http.StatusFound)
 }
 
 func Login(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -47,7 +47,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(pass))
 	if err != nil {
 		log.Print(err)
-		http.Redirect(w, r, "/login", 302)
+		http.Redirect(w, r, "/login", http.StatusFound)
 		return
 	} else {
 		session, err := user.CreateSession()
@@ -61,7 +61,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		http.SetCookie(w,&cookie)
  
 		log.Print("User successfully logged in")
-		http.Redirect(w, r, "/", 302)
+		http.Redirect(w, r, "/", http.StatusFound)
 	}
 }
 
@@ -79,10 +79,10 @@ func Logout(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 				MaxAge: -1,
 			}
 			http.SetCookie(w, &cookie)
-			http.Redirect(w, r, "/", 302)
+			http.Redirect(w, r, "/", http.StatusFound)
 		}
 	} else {
 		log.Print("Invalid request")
-		http.Redirect(w, r, "/", 302)
+		http.Redirect(w, r, "/", http.StatusFound)
 	}
 }

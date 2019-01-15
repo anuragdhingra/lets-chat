@@ -34,7 +34,7 @@ func NewThread(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		}
 	} else {
 		log.Print(err)
-		http.Redirect(w, r, "/login", 302)
+		http.Redirect(w, r, "/login", http.StatusFound)
 		return
 	}
 }
@@ -57,7 +57,7 @@ func CreateThread(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	throwError(err)
 	url := "/threads/" +  strconv.Itoa(threadId)
 	log.Print(url)
-	http.Redirect(w, r, url, 302)
+	http.Redirect(w, r, url, http.StatusFound)
 }
 
 func FindThread(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
