@@ -18,7 +18,7 @@ import (
 )
 
 var googleOauthConfig = &oauth2.Config{
-	RedirectURL: "http://localhost:8080/login/google/callback",
+	RedirectURL: "http://localhost:8080/oauth/google/callback",
 	ClientID: os.Getenv("clientId"),
 	ClientSecret: os.Getenv("clientSecret"),
 	Scopes: []string{"https://www.googleapis.com/auth/userinfo.email"},
@@ -104,7 +104,6 @@ func GoogleSignUpCallback(w http.ResponseWriter, r *http.Request, _ httprouter.P
 		Value: session.Uuid,
 		HttpOnly: true,
 	}
-	http.SetCookie(w, &cookieee)
 	http.Redirect(w, r, "/complete_signup", http.StatusTemporaryRedirect)
 
 }

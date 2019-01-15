@@ -20,8 +20,8 @@ func main() {
 	mux.POST("/authenticate", Authenticate)
 	mux.GET("/logout", Logout)
 
-	mux.GET("/login/google", GoogleSignUp)
-	mux.GET("/login/google/callback", GoogleSignUpCallback)
+	mux.GET("/oauth/google", GoogleSignUp)
+	mux.GET("/oauth/google/callback", GoogleSignUpCallback)
 	mux.GET("/complete_signup", CompleteSignup)
 
 	mux.GET("/thread/new", NewThread)
