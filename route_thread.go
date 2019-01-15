@@ -1,8 +1,8 @@
 package main
 
 import (
-	"chit-chat/data"
 	"github.com/julienschmidt/httprouter"
+	"lets-chat/data"
 	"log"
 	"net/http"
 	"strconv"

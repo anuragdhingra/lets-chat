@@ -1,10 +1,10 @@
 package main
 
 import (
-	"chit-chat/data"
 	"errors"
 	"fmt"
 	"html/template"
+	"lets-chat/data"
 	"log"
 	"net/http"
 	"golang.org/x/crypto/bcrypt"

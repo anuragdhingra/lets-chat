@@ -1,9 +1,9 @@
 package main
 
 import (
-	_ "chit-chat/data"
 	"github.com/julienschmidt/httprouter"
 	"golang.org/x/net/http2"
+	_ "lets-chat/data"
 	"net/http"
 )
 
@@ -19,8 +19,10 @@ func main() {
 	mux.GET("/login", Login)
 	mux.POST("/authenticate", Authenticate)
 	mux.GET("/logout", Logout)
-	mux.GET("/login/google", GoogleSignIn)
-	mux.GET("/login/google/callback", GoogleSignInCallback)
+
+	mux.GET("/login/google", GoogleSignUp)
+	mux.GET("/login/google/callback", GoogleSignUpCallback)
+	mux.GET("/complete_signup", CompleteSignup)
 
 	mux.GET("/thread/new", NewThread)
 	mux.GET("/threads/:id", FindThread)

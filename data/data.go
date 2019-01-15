@@ -3,6 +3,7 @@ package data
 import (
 	"database/sql"
 	"log"
+	"os"
 )
 import _ "github.com/go-sql-driver/mysql"
 
@@ -11,7 +12,7 @@ var Db *sql.DB
 
 func init() {
 	var err error
-	Db, err = sql.Open("mysql", "root:password@tcp(localhost:3307)/chitchat?parseTime=true")
+	Db, err = sql.Open("mysql", os.Getenv("datasource"))
 	if err!= nil {
 		log.Print(err)
 		return
