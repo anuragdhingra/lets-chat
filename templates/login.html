@@ -3,7 +3,7 @@
     <form class="form-signin center" role="form" action="/authenticate" method="post">
         <h2 class="form-signin-heading">
             <i class="fa fa-comments-o">
-                ChitChat
+                Let's Chat
             </i>
         </h2>
         <input type="emailOrUsername" name="emailOrUsername" class="form-control" placeholder="Email address" required autofocus>
@@ -11,7 +11,7 @@
         <br/>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <br/>
-        <a class="lead pull-right" href="/signup">Sign up</a>
+        <div class="google-login"> Or log in using - <a href="/oauth/google"><i class="fa fa-lg fa-google"></i></a></div>
     </form>
 
 {{ end }}

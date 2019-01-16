@@ -1,8 +1,8 @@
 package main
 
 import (
-	"chit-chat/data"
 	"github.com/julienschmidt/httprouter"
+	"lets-chat/data"
 	"log"
 	"net/http"
 	"strconv"
@@ -15,7 +15,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	sess, err := session(w, r)
 	if err != nil {
 		log.Print(err)
-		http.Redirect(w, r, "/login", 401)
+		http.Redirect(w, r, "/login", http.StatusUnauthorized)
 	} else {
 		user, _ := sess.User()
 
@@ -29,7 +29,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		postRequest := data.PostRequest{postBody, user.Id, threadId}
 		_, err = postRequest.CreatePost()
 		throwError(err)
-		http.Redirect(w, r, "/threads/" + threadIdString, 302)
+		http.Redirect(w, r, "/threads/" + threadIdString, http.StatusFound)
 	}
 }
 

@@ -74,3 +74,10 @@ nav .navbar-nav li a{
     padding-top: 5px;
     margin-left: 20px;
 }
+
+.google-login {
+    text-align: center;
+}
+.google-signup {
+    text-align: center;
+}

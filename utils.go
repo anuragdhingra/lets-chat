@@ -1,10 +1,10 @@
 package main
 
 import (
-	"chit-chat/data"
 	"errors"
 	"fmt"
 	"html/template"
+	"lets-chat/data"
 	"log"
 	"net/http"
 	"golang.org/x/crypto/bcrypt"
@@ -54,7 +54,7 @@ func session(w http.ResponseWriter, r *http.Request) (session data.Session, err 
 func checkInvalidRequests(w http.ResponseWriter, r *http.Request) {
 	_, err := session(w, r)
 	if err == nil {
-		http.Redirect(w, r, `/`, 302)
+		http.Redirect(w, r, `/`, http.StatusFound)
 		return
 	}
 }

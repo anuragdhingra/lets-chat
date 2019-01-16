@@ -12,6 +12,7 @@ type User struct {
 	Uuid string
 	Email string
 	Password string
+	HasPassword bool
 	CreatedAt time.Time
 }
 
@@ -24,7 +25,7 @@ type Session struct {
 }
 
 func (user User) Create() (err error){
-	stmt, err := Db.Prepare("INSERT INTO users SET uuid=?, username=?, email=?, password=?, created_at=?")
+	stmt, err := Db.Prepare("INSERT INTO users SET uuid=?, username=?, email=?, password=?, has_password=?, created_at=?")
 	if err != nil {
 		log.Print(err)
 		return err
@@ -35,7 +36,7 @@ func (user User) Create() (err error){
 		log.Print(err)
 		return err
 	}
-	_, err = stmt.Exec(u4.String() ,user.Username, user.Email, user.Password, time.Now())
+	_, err = stmt.Exec(u4.String() ,user.Username, user.Email, user.Password, user.HasPassword, time.Now())
 	if err != nil {
 		log.Print(err)
 		return err
@@ -48,7 +49,7 @@ func (user User) Create() (err error){
 func UserByEmailOrUsername(emailOrUsername string) (user User, err error) {
 	conv := User{}
 	err = Db.QueryRow("SELECT * FROM users WHERE email=? OR username=?",emailOrUsername,emailOrUsername).Scan(&conv.Id,
-		&conv.Uuid, &conv.Username,&conv.Email, &conv.Password, &conv.CreatedAt)
+		&conv.Uuid, &conv.Username,&conv.Email, &conv.Password, &conv.HasPassword, &conv.CreatedAt)
 	if err != nil {
 		log.Print(err)
 		return
@@ -60,7 +61,7 @@ func UserByEmailOrUsername(emailOrUsername string) (user User, err error) {
 func UserById(userId int) (user User, err error) {
 	conv := User{}
 	err = Db.QueryRow("SELECT * FROM users WHERE id=?",userId).Scan(&conv.Id,
-		&conv.Uuid, &conv.Username,&conv.Email, &conv.Password, &conv.CreatedAt)
+		&conv.Uuid, &conv.Username,&conv.Email, &conv.Password, &conv.HasPassword, &conv.CreatedAt)
 	if err != nil {
 		log.Print(err)
 		return
@@ -128,7 +129,7 @@ func (sess Session) User() (user User, err error) {
 		&user.Id)
 
 	err = Db.QueryRow("SELECT * FROM users WHERE id=?", user.Id).Scan(
-		&user.Id, &user.Uuid, &user.Username, &user.Email, &user.Password, &user.CreatedAt)
+		&user.Id, &user.Uuid, &user.Username, &user.Email, &user.Password, &user.HasPassword, &user.CreatedAt)
 	if err != nil {
 		log.Print("User corresponding to the session not found")
 		return
