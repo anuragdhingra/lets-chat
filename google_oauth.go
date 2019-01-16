@@ -36,7 +36,6 @@ type GoogleUserInfo struct {
 	Picture url.URL `json:"picture"`
 }
 
-var cookieee http.Cookie
 
 const oauthGoogleUrlAPI = "https://www.googleapis.com/oauth2/v2/userinfo?access_token="
 
@@ -48,7 +47,9 @@ func GoogleSignUp(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		Value:oauthState,
 		HttpOnly: true,
 		Expires: time.Now().Add(365 * 24 * time.Hour),
+		Path:"/oauth/google",
 	}
+
 	http.SetCookie(w, &cookie)
 
 	url := googleOauthConfig.AuthCodeURL(oauthState)
@@ -99,22 +100,12 @@ func GoogleSignUpCallback(w http.ResponseWriter, r *http.Request, _ httprouter.P
 	loggedInUser, err := data.UserByEmailOrUsername(userInfo.Email)
 	throwError(err)
 	session, err := loggedInUser.CreateSession()
-	cookieee = http.Cookie{
+	cookie := http.Cookie{
 		Name:"_cookie",
 		Value: session.Uuid,
 		HttpOnly: true,
+		Path:"/",
 	}
-	http.Redirect(w, r, "/complete_signup", http.StatusTemporaryRedirect)
-
-}
-
-func CompleteSignup(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	http.SetCookie(w, &cookieee)
-	_, err := session(w, r)
-	if err != nil {
-		log.Print(err)
-		http.Redirect(w, r, "/login", http.StatusTemporaryRedirect)
-	} else {
-		http.Redirect(w, r, "/", http.StatusPermanentRedirect)
-	}
+	http.SetCookie(w, &cookie)
+	http.Redirect(w, r, "/", 302)
 }
