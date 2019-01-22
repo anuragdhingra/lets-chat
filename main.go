@@ -33,7 +33,6 @@ func main() {
 	// Post related handlers
 	mux.POST("/thread/post", CreatePost)
 
-
 	server := &http.Server{
 		Addr:    "0.0.0.0:8080",
 		Handler: mux,
