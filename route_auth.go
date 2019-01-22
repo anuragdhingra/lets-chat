@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/anuragdhingra/lets-chat/data"
 	"github.com/julienschmidt/httprouter"
 	"golang.org/x/crypto/bcrypt"
-	"lets-chat/data"
 	"log"
 	"net/http"
 )

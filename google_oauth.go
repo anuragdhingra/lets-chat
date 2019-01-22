@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"github.com/anuragdhingra/lets-chat/data"
 	"github.com/julienschmidt/httprouter"
 	"github.com/nu7hatch/gouuid"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"io/ioutil"
-	"lets-chat/data"
 	"log"
 	"net/http"
 	"net/url"
