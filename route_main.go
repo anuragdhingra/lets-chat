@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/anuragdhingra/lets-chat/data"
 	"github.com/julienschmidt/httprouter"
-	"lets-chat/data"
 	"log"
 	"net/http"
 )

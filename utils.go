@@ -3,11 +3,11 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/anuragdhingra/lets-chat/data"
+	"golang.org/x/crypto/bcrypt"
 	"html/template"
-	"lets-chat/data"
 	"log"
 	"net/http"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func generateHTML(writer http.ResponseWriter, data interface{}, filenames ...string) {

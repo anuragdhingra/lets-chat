@@ -1,9 +1,9 @@
 package main
 
 import (
+	_ "github.com/anuragdhingra/lets-chat/data"
 	"github.com/julienschmidt/httprouter"
 	"golang.org/x/net/http2"
-	_ "lets-chat/data"
 	"net/http"
 )
 
