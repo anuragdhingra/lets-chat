@@ -52,5 +52,5 @@ workflow:
       - deploy:
           filters:
           branches:
-            only: master
+            only: develop
 
