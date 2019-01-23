@@ -50,7 +50,10 @@ workflow:
   ci:
     jobs:
       - deploy:
+          requires:
+            - build
           filters:
-          branches:
-            only: develop
-
+            branches:
+              only:
+                - develop
+                - master
