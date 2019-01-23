@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"time"
 )
 import _ "github.com/go-sql-driver/mysql"
 
@@ -13,6 +14,9 @@ var Db *sql.DB
 func init() {
 	var err error
 	Db, err = sql.Open("mysql", getDatasource())
+	// To avoid client timeout
+	Db.SetConnMaxLifetime(time.Second)
+
 	if err!= nil {
 		log.Print(err)
 		return
