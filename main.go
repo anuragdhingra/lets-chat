@@ -4,6 +4,7 @@ import (
 	_ "github.com/anuragdhingra/lets-chat/data"
 	"github.com/julienschmidt/httprouter"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -33,7 +34,7 @@ func main() {
 	mux.POST("/thread/post", CreatePost)
 
 	server := &http.Server{
-		Addr:    "0.0.0.0:8080",
+		Addr:    "0.0.0.0:" + os.Getenv("port"),
 		Handler: mux,
 	}
 
