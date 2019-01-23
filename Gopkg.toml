@@ -52,3 +52,7 @@
 [prune]
   go-tests = true
   unused-packages = true
+
+[metadata.heroku]
+  root-package = "lets-chat"
+  go-version = "go1.9.2"
