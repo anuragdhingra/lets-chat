@@ -10,7 +10,7 @@ import (
 func main() {
 
 	mux := httprouter.New()
-	mux.ServeFiles("/public/*filepath", http.Dir("public"))
+	mux.ServeFiles("/lets-chat/public/*filepath", http.Dir("public"))
 
 	mux.GET("/", Index)
 
@@ -34,7 +34,7 @@ func main() {
 	mux.POST("/thread/post", CreatePost)
 
 	server := &http.Server{
-		Addr:    "0.0.0.0:" + os.Getenv("port"),
+		Addr:    "0.0.0.0:" + os.Getenv("PORT"),
 		Handler: mux,
 	}
 
