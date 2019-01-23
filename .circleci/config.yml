@@ -20,3 +20,37 @@ jobs:
           command: |
             dep ensure
             go build -v
+
+  deploy:
+    docker:
+      - image: circleci/node:10.5.0
+    steps:
+      - checkout
+      - run:
+          name: Log in to Heroku
+          command: bash ./login-heroku.sh
+      - run:
+          name: Install Heroku CLI
+          command: |
+            wget https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz
+            sudo mkdir -p /usr/local/lib /usr/local/bin
+            sudo tar -xvzf heroku-linux-amd64.tar.gz -C /usr/local/lib
+            sudo ln -s /usr/local/lib/heroku/bin/heroku /usr/local/bin/heroku
+      - run:
+          name: Deploy heroku app
+          command: bash infra/deploy-heroku.sh
+      - run:
+          name: Set BUILD_NUM and COMPARE_URL on Heroku to CIRCLECI values
+          command: |
+            source ./setup-env.sh
+            heroku config:set BUILD_NUM=${CIRCLE_BUILD_NUM} COMPARE_URL=${CIRCLE_COMPARE_URL} -a ${HEROKU_APP}
+
+workflow:
+  version: 2
+  ci:
+    jobs:
+      - deploy:
+          filters:
+          branches:
+            only: master
+
