@@ -47,10 +47,14 @@ jobs:
 
 workflow:
   version: 2
-  ci:
+  build-deploy:
     jobs:
+      - build
       - deploy:
+          requires:
+            - build
           filters:
-          branches:
-            only: master
-
+            branches:
+              only:
+                - develop
+                - master
