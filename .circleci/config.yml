@@ -1,3 +1,16 @@
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+
 version: 2
 jobs:
   build:
@@ -24,6 +37,7 @@ jobs:
   deploy:
     docker:
       - image: circleci/node:10.5.0
+
     steps:
       - checkout
       - run:
@@ -44,17 +58,3 @@ jobs:
           command: |
             source ./setup-env.sh
             heroku config:set BUILD_NUM=${CIRCLE_BUILD_NUM} COMPARE_URL=${CIRCLE_COMPARE_URL} -a ${HEROKU_APP}
-
-workflow:
-  version: 2
-  build-deploy:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - develop
-                - master
